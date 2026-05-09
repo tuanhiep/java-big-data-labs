@@ -1,4 +1,4 @@
-package model.linear.regression.compute.cost;
+package io.github.tuanhiep.bigdata.linearregression.cost;
 
 import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.Path;
@@ -10,21 +10,21 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class LRComputeCost {
+public class LinearRegressionCostJob {
     public static void main(String[] args) {
-        JobConf conf = new JobConf(LRComputeCost.class);
+        JobConf conf = new JobConf(LinearRegressionCostJob.class);
         conf.setJobName("linearRegression");
         try {
             //put weights parameters to distributed cache so that every node can get it
-            DistributedCache.addCacheFile(new URI("src/main/java/model/parameter/weight.csv"), conf);
+            DistributedCache.addCacheFile(new URI("src/main/resources/model-parameters/weights.csv"), conf);
         } catch (URISyntaxException e1) {
             e1.printStackTrace();
         }
         conf.setOutputKeyClass(LongWritable.class);
         conf.setOutputValueClass(FloatWritable.class);
-        conf.setMapperClass(LRComputeCostMapper.class);
-        conf.setCombinerClass(LRComputeCostReducer.class);
-        conf.setReducerClass(LRComputeCostReducer.class);
+        conf.setMapperClass(LinearRegressionCostMapper.class);
+        conf.setCombinerClass(LinearRegressionCostReducer.class);
+        conf.setReducerClass(LinearRegressionCostReducer.class);
         conf.setInputFormat(TextInputFormat.class);
         conf.setOutputFormat(TextOutputFormat.class);
         FileInputFormat.setInputPaths(conf, new Path(args[0]));

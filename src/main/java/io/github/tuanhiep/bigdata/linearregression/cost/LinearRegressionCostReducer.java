@@ -1,4 +1,4 @@
-package model.linear.regression.compute.cost;
+package io.github.tuanhiep.bigdata.linearregression.cost;
 
 import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -10,7 +10,7 @@ import org.apache.hadoop.mapred.Reporter;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class LRComputeCostReducer extends MapReduceBase implements Reducer<LongWritable, FloatWritable, LongWritable, FloatWritable> {
+public class LinearRegressionCostReducer extends MapReduceBase implements Reducer<LongWritable, FloatWritable, LongWritable, FloatWritable> {
 
     @Override
     public void reduce(LongWritable key, Iterator<FloatWritable> value,

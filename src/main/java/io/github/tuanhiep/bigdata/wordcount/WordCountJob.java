@@ -1,4 +1,4 @@
-package example;
+package io.github.tuanhiep.bigdata.wordcount;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 
-public class WordCount {
+public class WordCountJob {
 
     public static class TokenizerMapper
             extends Mapper<Object, Text, Text, IntWritable> {
@@ -52,7 +52,7 @@ public class WordCount {
 
         Configuration conf = new Configuration();
         Job job = Job.getInstance(conf, "word count");
-        job.setJarByClass(WordCount.class);
+        job.setJarByClass(WordCountJob.class);
         job.setMapperClass(TokenizerMapper.class);
         job.setCombinerClass(IntSumReducer.class);
         job.setReducerClass(IntSumReducer.class);

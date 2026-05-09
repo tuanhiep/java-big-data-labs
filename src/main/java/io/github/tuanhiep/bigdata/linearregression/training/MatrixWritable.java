@@ -1,4 +1,4 @@
-package model.linear.regression.train.weight.jama;
+package io.github.tuanhiep.bigdata.linearregression.training;
 
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.TwoDArrayWritable;
@@ -7,18 +7,18 @@ import org.apache.hadoop.io.Writable;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class MyTwoDArrayWritable extends TwoDArrayWritable {
+public class MatrixWritable extends TwoDArrayWritable {
     public static int id = 0;
 
-    public MyTwoDArrayWritable() {
+    public MatrixWritable() {
         super(DoubleWritable.class);
     }
 
-    public MyTwoDArrayWritable(Class valueClass) {
+    public MatrixWritable(Class valueClass) {
         super(valueClass);
     }
 
-    public MyTwoDArrayWritable(Class valueClass, Writable[][] values) {
+    public MatrixWritable(Class valueClass, Writable[][] values) {
         super(valueClass, values);
     }
 
@@ -26,7 +26,7 @@ public class MyTwoDArrayWritable extends TwoDArrayWritable {
     public String toString() {
 
         try {
-            FileWriter myWriter = new FileWriter("src/main/java/model/parameter/result_" + id++ + ".csv");
+            FileWriter myWriter = new FileWriter("src/main/resources/model-parameters/result_" + id++ + ".csv");
             myWriter.write(convertToString((Writable[][]) this.toArray()));
             myWriter.close();
             System.out.println("Successfully wrote to the file.");

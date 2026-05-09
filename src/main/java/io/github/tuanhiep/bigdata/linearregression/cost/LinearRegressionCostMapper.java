@@ -1,4 +1,4 @@
-package model.linear.regression.compute.cost;
+package io.github.tuanhiep.bigdata.linearregression.cost;
 
 import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.Path;
@@ -11,7 +11,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LRComputeCostMapper extends MapReduceBase
+public class LinearRegressionCostMapper extends MapReduceBase
         implements Mapper<LongWritable, Text, LongWritable, FloatWritable> {
     private Path[] localFiles;
     FileInputStream fis = null;

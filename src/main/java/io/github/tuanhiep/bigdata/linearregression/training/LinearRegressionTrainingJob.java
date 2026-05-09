@@ -1,19 +1,16 @@
-package model.linear.regression.train.weight.jama;
+package io.github.tuanhiep.bigdata.linearregression.training;
 
 import Jama.Matrix;
-import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapred.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import static java.lang.Thread.sleep;
 
-public class LinearRegressionMain {
+public class LinearRegressionTrainingJob {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -28,13 +25,13 @@ public class LinearRegressionMain {
             index.delete();
         }
         // Start configure the job MapReduce
-        JobConf conf = new JobConf(LinearRegressionMain.class);
+        JobConf conf = new JobConf(LinearRegressionTrainingJob.class);
         conf.setJobName("linearRegression");
         conf.setOutputKeyClass(LongWritable.class);
-        conf.setOutputValueClass(MyTwoDArrayWritable.class);
-        conf.setMapperClass(LinearRegressionMapper.class);
-        conf.setCombinerClass(LinearRegressionReducer.class);
-        conf.setReducerClass(LinearRegressionReducer.class);
+        conf.setOutputValueClass(MatrixWritable.class);
+        conf.setMapperClass(LinearRegressionTrainingMapper.class);
+        conf.setCombinerClass(LinearRegressionTrainingReducer.class);
+        conf.setReducerClass(LinearRegressionTrainingReducer.class);
         conf.setInputFormat(TextInputFormat.class);
         conf.setOutputFormat(TextOutputFormat.class);
         FileInputFormat.setInputPaths(conf, new Path(args[0]));
@@ -46,12 +43,12 @@ public class LinearRegressionMain {
         }
         sleep(3000);
         // Compute weights for linear regression model
-        LinearRegressionClassifier classifier = new LinearRegressionClassifier();
-        Matrix XtX = classifier.readMatrixFromFile("src/main/java/model/parameter/result_0.csv");
-        Matrix Xty = classifier.readMatrixFromFile("src/main/java/model/parameter/result_1.csv");
+        LinearRegressionModelWriter classifier = new LinearRegressionModelWriter();
+        Matrix XtX = classifier.readMatrixFromFile("src/main/resources/model-parameters/result_0.csv");
+        Matrix Xty = classifier.readMatrixFromFile("src/main/resources/model-parameters/result_1.csv");
         // Calculate the weights of linear regression model by normal equation
         Matrix weights = (XtX.inverse()).times(Xty);
-        classifier.writeMatrixToFile(weights, "src/main/java/model/parameter/weights.csv");
+        classifier.writeMatrixToFile(weights, "src/main/resources/model-parameters/weights.csv");
 
 
     }

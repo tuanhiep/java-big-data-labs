@@ -16,6 +16,22 @@ This repository keeps hands-on Java exercises around Hadoop-style data processin
 
 Open the project in IntelliJ IDEA and run specific examples from the IDE. Some examples may require local datasets under `src/main/resources/input`.
 
+### Linear Regression Lab
+
+Run `LinearRegressionTrainingJob.java` with an input dataset and an output directory:
+
+```text
+src/main/resources/input/training.csv src/main/resources/output
+```
+
+For the normalized dataset, use:
+
+```text
+src/main/resources/input/training_normalized.csv src/main/resources/output
+```
+
+Generated Hadoop output under `src/main/resources/output` is intentionally ignored. Model parameter snapshots live under `src/main/resources/model-parameters`.
+
 ## Status
 
 Learning lab. The main risk is mixed local data/artifacts; the next upgrade is to document dataset provenance and separate sample data from generated outputs.

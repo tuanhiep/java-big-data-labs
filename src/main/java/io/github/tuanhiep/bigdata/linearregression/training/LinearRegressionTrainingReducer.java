@@ -1,4 +1,4 @@
-package model.linear.regression.train.weight.jama;
+package io.github.tuanhiep.bigdata.linearregression.training;
 
 import Jama.Matrix;
 import org.apache.hadoop.io.DoubleWritable;
@@ -12,14 +12,14 @@ import org.apache.hadoop.mapred.Reporter;
 import java.io.IOException;
 import java.util.Iterator;
 
-import static model.linear.regression.train.weight.jama.LinearRegressionMapper.convertToMyTwoDArrayWritable;
+import static io.github.tuanhiep.bigdata.linearregression.training.LinearRegressionTrainingMapper.convertToMatrixWritable;
 
 
-public class LinearRegressionReducer extends MapReduceBase implements Reducer<LongWritable, MyTwoDArrayWritable, LongWritable, MyTwoDArrayWritable> {
+public class LinearRegressionTrainingReducer extends MapReduceBase implements Reducer<LongWritable, MatrixWritable, LongWritable, MatrixWritable> {
 
     @Override
-    public void reduce(LongWritable key, Iterator<MyTwoDArrayWritable> value,
-                       OutputCollector<LongWritable, MyTwoDArrayWritable> output, Reporter reporter)
+    public void reduce(LongWritable key, Iterator<MatrixWritable> value,
+                       OutputCollector<LongWritable, MatrixWritable> output, Reporter reporter)
             throws IOException {
 
         Matrix sum = null;
@@ -32,7 +32,7 @@ public class LinearRegressionReducer extends MapReduceBase implements Reducer<Lo
             }
 
         }
-        output.collect(key, convertToMyTwoDArrayWritable(sum));
+        output.collect(key, convertToMatrixWritable(sum));
 
     }
 

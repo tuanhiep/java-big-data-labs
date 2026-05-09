@@ -1,4 +1,4 @@
-package model.linear.regression.train.weight.jama;
+package io.github.tuanhiep.bigdata.linearregression.training;
 
 import Jama.Matrix;
 import org.apache.hadoop.io.DoubleWritable;
@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LinearRegressionClassifier {
+public class LinearRegressionModelWriter {
     /**
      * Read Matrix Jama from file
      *

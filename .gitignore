@@ -21,6 +21,7 @@ node_modules/
 dist/
 build/
 target/
+src/main/resources/output/
 out/
 .gradle/
 *.log

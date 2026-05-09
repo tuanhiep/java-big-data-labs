@@ -1,4 +1,4 @@
-package model.linear.regression.train.weight.jama;
+package io.github.tuanhiep.bigdata.linearregression.training;
 
 import Jama.Matrix;
 import org.apache.hadoop.io.DoubleWritable;
@@ -11,8 +11,8 @@ import org.apache.hadoop.mapred.Reporter;
 
 import java.io.IOException;
 
-public class LinearRegressionMapper extends MapReduceBase
-        implements Mapper<LongWritable, Text, LongWritable, MyTwoDArrayWritable> {
+public class LinearRegressionTrainingMapper extends MapReduceBase
+        implements Mapper<LongWritable, Text, LongWritable, MatrixWritable> {
     /**
      * to map 2 parts of normal equation so that they will be computed by summed up
      *
@@ -23,7 +23,7 @@ public class LinearRegressionMapper extends MapReduceBase
      * @throws IOException
      */
     @Override
-    public void map(LongWritable key, Text value, OutputCollector<LongWritable, MyTwoDArrayWritable> output,
+    public void map(LongWritable key, Text value, OutputCollector<LongWritable, MatrixWritable> output,
                     Reporter reporter) throws IOException {
         // value represents one sample of data set
         String line = value.toString();
@@ -39,23 +39,23 @@ public class LinearRegressionMapper extends MapReduceBase
         Matrix Xi = new Matrix(xi);
         Matrix XiT = Xi.transpose();
         Matrix firstPart = XiT.times(Xi);
-        output.collect(new LongWritable(1), convertToMyTwoDArrayWritable(firstPart));
+        output.collect(new LongWritable(1), convertToMatrixWritable(firstPart));
         double[][] yi = new double[1][1];
         yi[0][0] = Double.valueOf(features[0]);
         Matrix Yi = new Matrix(yi);
         Matrix secondPart = XiT.times(Yi);
-        output.collect(new LongWritable(2), convertToMyTwoDArrayWritable(secondPart));
+        output.collect(new LongWritable(2), convertToMatrixWritable(secondPart));
 
 
     }
 
     /**
-     * To convert Matrix type in Jama to MyTwoDArrayWritbale object
+     * To convert a Jama matrix to a Hadoop writable matrix.
      *
      * @param matrix
      * @return
      */
-    public static MyTwoDArrayWritable convertToMyTwoDArrayWritable(Matrix matrix) {
+    public static MatrixWritable convertToMatrixWritable(Matrix matrix) {
         int row = matrix.getRowDimension();
         int column = matrix.getColumnDimension();
         DoubleWritable[][] myMatrix = new DoubleWritable[row][column];
@@ -65,7 +65,7 @@ public class LinearRegressionMapper extends MapReduceBase
                 myMatrix[i][j] = new DoubleWritable(matrix.get(i, j));
             }
 
-        return new MyTwoDArrayWritable(DoubleWritable.class, myMatrix);
+        return new MatrixWritable(DoubleWritable.class, myMatrix);
     }
 
 
