@@ -1,2 +1,31 @@
 # Project exclude paths
 /target/
+# Local workspace and build artifacts
+.DS_Store
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+node_modules/
+.next/
+dist/
+build/
+target/
+out/
+.gradle/
+*.log
+.env
+.env.*
+secrets/
+*.apkg
+*.icloud
